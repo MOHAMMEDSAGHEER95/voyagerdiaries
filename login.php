@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = pg_fetch_all($user_authentication);
     foreach($user as  $value){
         session_start();
-        $_SESSION['id'] = $value['id'];
+        $_SESSION['user_id'] = $value['id'];
         $_SESSION['first_name'] = $value['first_name'];
         $_SESSION['last_name'] = $value['last_name'];
         $_SESSION['username'] = $value['username'];

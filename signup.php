@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $res = pg_insert($dbconn, "users", $data_pg);
         if ($res) {
             echo "<br>POST data is successfully logged\n";
-            header("Location: http://localhost:8000/signup.php");
+            header("Location: http://localhost:8000/login.php");
         } else {
             echo "<br>User must have sent wrong inputs\n";
         }
