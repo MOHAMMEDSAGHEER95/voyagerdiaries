@@ -19,7 +19,7 @@
       <!-- Navbar brand -->
       <a class="navbar-brand mt-2 mt-lg-0" href="#">
         <img
-          src="https://img.freepik.com/premium-vector/detailed-travel-logo_23-2148616612.jpg"
+          src="https://static.ssb.ee/images/companies/14636730_yumuuv-ou_74581809_a_xl.png"
           height="50"
           alt="MDB Logo"
           loading="lazy"

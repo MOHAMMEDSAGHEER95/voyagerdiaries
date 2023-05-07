@@ -7,11 +7,52 @@
     <title>Home</title>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+  .mt-100 {
+  margin-top: 100px !important;
+}
+</style>
 <body>
     <!-- Navbar -->
     <?php
     include "includes/base.php";
     ?>
+    <div class="container mt-100">
+    <div class="card text-center">
+  <div class="card-header">
+    Reviews
+  </div>
+  <?php
+include('config/db_config.php');
+$connection_string =
+    "host=" .
+    DB_HOST .
+    " port=" .
+    DB_PORT .
+    " dbname=" .
+    DB_NAME .
+    " user=" .
+    DB_USER .
+    " password=" .
+    DB_PASSWORD;
+
+$dbconn = pg_connect($connection_string);
+$reviewsResult = pg_query($dbconn, "select a.review,b.username from reviews a join users b on a.user_id=b.id;");
+if (pg_num_rows($reviewsResult) > 0) {
+  while ($row = pg_fetch_assoc($reviewsResult)) {
+    echo "<div class='card-body'>";
+    echo '<h5 class="card-title">'.$row["review"] .'</h5>';
+    echo '<p>Review By:'.$row["username"].'</p>';
+    echo '<a href="#" class="btn btn-primary">Like</a>';
+    
+  echo '</div><div class="card-footer text-muted"></div>';
+  }
+}
+?>
+  
+    
+</div>
+    </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -21,16 +62,3 @@ echo "<script>" . $script . "</script>";
 ?>
   </body>
 </html>
-<?php
-include('config/db_config.php');
-
-// Establish a connection to the PostgreSQL database using PDO
-try {
-  $pdo = new PDO('pgsql:host='.DB_HOST.';dbname='.DB_NAME.';user='.DB_USER.';password='.DB_PASSWORD);
-  // Set PDO error mode to exception
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected successfully to the PostgreSQL database";
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
-}
-?>

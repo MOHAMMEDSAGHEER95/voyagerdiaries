@@ -58,6 +58,7 @@ $dbconn = pg_connect($connection_string);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data_pg = ["review" => $_REQUEST["review"], "user_id" => $_SESSION['user_id']];
     $res = pg_insert($dbconn, "reviews", $data_pg);
+    header("Location: index.php");
 }
 
 ?>
