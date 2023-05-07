@@ -44,20 +44,12 @@
     <!-- Right elements -->
     <div class="d-flex align-items-center">
       <!-- Avatar -->
-      <div class="dropdown">
+      <div class="dropdown mr-100">
       <?php
       session_start();
 if (isset($_SESSION['user_id'])) {
     ?>
-        <a
-          class="dropdown-toggle d-flex align-items-center hidden-arrow"
-          href="#"
-          id="navbarDropdownMenuAvatar"
-          role="button"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"
-          style="margin-right:20px"
-        >
+        
           <img
             src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
             class="rounded-circle menu_avatar"
@@ -65,7 +57,7 @@ if (isset($_SESSION['user_id'])) {
             alt="Black and White Portrait of a Man"
             loading="lazy"
           />
-        </a>
+      
         <?php }
         else {
 
