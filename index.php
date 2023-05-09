@@ -51,7 +51,7 @@ $connection_string =
     DB_PASSWORD;
 
 $dbconn = pg_connect($connection_string);
-$reviewsResult = pg_query($dbconn, "select a.review,b.username from reviews a join users b on a.user_id=b.id;");
+$reviewsResult = pg_query($dbconn, "select a.review,b.username from reviews a join users b on a.user_id=b.id order by a.id desc;");
 if (pg_num_rows($reviewsResult) > 0) {
   while ($row = pg_fetch_assoc($reviewsResult)) {
     echo "<div class='card-body'>";
