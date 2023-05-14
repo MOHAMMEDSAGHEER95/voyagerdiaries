@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Home</title>
+    <title>Update Profile</title>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,7 +34,9 @@
 </style>
 <body>
 <?php
+
     include "includes/base.php";
+require 'isauthenticated.php';
     include('config/db_config.php');
 $connection_string =
     "host=" .
@@ -53,10 +55,25 @@ $userId = $_SESSION['user_id'];
 $userResult = pg_query($dbconn, "select * from users where id=".$userId);
 $row = pg_fetch_row($userResult);
 
-echo "<div class='container mt-100'>";
-echo "<input type='text' class='form-control-lg no-border'  value='".$row[1]."'>";
-echo "<br>";
-echo "<input type='text' class='form-control-lg no-border'  value='".$row[2]."'>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $first_name = $_REQUEST['first_name'];
+    $last_name = $_REQUEST['last_name'];
+    $updateQuery = pg_query($dbconn, "update users set first_name='".$first_name."', last_name='".$last_name."' where id=".$userId);
+    
+    echo '<div class="alert alert-success" role="alert">
+Profile Updated successfully!
+</div>';
+header("Location: /");
+}
+
+
+echo '<div class="container d-flex justify-content-center align-items-center vh-100">';
+echo '<form action="/my-profile.php" method="post"><div class="form-group"><label for="first_name">First Name:</label>';
+echo "<input type='text' class='form-control-lg no-border' name='first_name' value='".$row[1]."'>";
+echo '</div><div class="form-group"><label for="last_name">Last Name:</label>';
+
+echo "<input type='text' class='form-control-lg no-border' name='last_name' value='".$row[2]."'>";
+echo '</div> <button type="submit" class="btn btn-primary">Submit</button></form>';
 
 echo "</div>";
     ?>
