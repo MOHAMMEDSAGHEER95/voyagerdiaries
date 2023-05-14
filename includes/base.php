@@ -34,7 +34,7 @@
           <a class="nav-link" href="/create-reviews.php">Add Reviews</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Reviews</a>
+          <a class="nav-link" href="/my-reviews.php">My Reviews</a>
         </li>
       </ul>
       <!-- Left links -->

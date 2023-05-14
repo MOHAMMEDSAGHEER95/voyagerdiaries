@@ -30,15 +30,58 @@ var data = {
       console.log('Error: ' + error);
     }
   });
-})
+});
 
-// $('.card-body').hover(
-//     function() {
-//       $(this).animate({ height: '300px' }, 300);
-//     }, function() {
-//       $(this).animate({ height: '200px' }, 300);
-//     }
-//   );  
+$('.fa-trash').on('click', function(){
+    var data = {
+        review_id: $(this).attr("review_id"),
+        action: 'delete'
+      };
+      $.ajax({
+        type: 'POST',
+        url: 'my-reviews.php',
+        data: data,
+        success: function(response) {
+            $("#card-"+ data.review_id).hide()
+        },
+        error: function(xhr, status, error) {
+            console.log('Error: ' + error);
+          }
+
+    });
+});
+
+$('.fa-edit').on('click', function(){
+    var id = $(this).attr("review_id");
+    var cardTitle = $('#card-title-'+id);
+    $('#editReview').modal();
+    $('#editReviewText').val(cardTitle.text());
+    $('#editReviewId').val(id);
+});
+
+$('#submitReview').on('click', function(){
+    var data = {
+        review_id: $('#editReviewId').val(),
+        review: $('#editReviewText').val(),
+        action: 'edit'
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: 'my-reviews.php',
+        data: data,
+        success: function(response) {
+            var cardTitle = $('#card-title-'+data.review_id);
+            debugger;
+            cardTitle.text(data.review);
+            $('#editReviewText').val('');
+            $('#editReviewId').val('');
+            $('#editReview').modal('hide');
+        },
+        error: function(xhr, status, error) {}
+      });
+
+})
   
   
   
