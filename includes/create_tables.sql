@@ -21,6 +21,6 @@ CREATE TABLE reviews
 CREATE TABLE liked_reviews (
   id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(id),
-  review_id INTEGER NOT NULL REFERENCES reviews(id),
+  review_id INTEGER NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
   CONSTRAINT unique_user_review UNIQUE (user_id, review_id)
 );

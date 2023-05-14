@@ -18,10 +18,13 @@
 
 .card-body{
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  transform-origin: center center;
 }
 .card-body:hover {
-  background-color: #006dff;
-  color: white;
+  /* background-color: #006dff;
+  color: white; */
+  transform: scale(1.1);
   -webkit-transition: background 2s; /* For Safari 3.0 to 6.0 */
         transition: background 2s;
 }
@@ -51,13 +54,25 @@ $connection_string =
     DB_PASSWORD;
 
 $dbconn = pg_connect($connection_string);
-$reviewsResult = pg_query($dbconn, "select a.review,b.username from reviews a join users b on a.user_id=b.id order by a.id desc;");
+$user_id = 0;
+if(isset($_SESSION['user_id'])){
+  $user_id = $_SESSION['user_id'];
+}
+
+
+$reviewsResult = pg_query($dbconn, "SELECT r.review, u.username, r.id, CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS liked FROM reviews r LEFT JOIN liked_reviews l ON l.review_id = r.id AND l.user_id = ".$user_id.  " JOIN users u ON r.user_id = u.id ORDER BY r.id DESC;");
 if (pg_num_rows($reviewsResult) > 0) {
   while ($row = pg_fetch_assoc($reviewsResult)) {
-    echo "<div class='card-body'>";
+    echo "<div class='card-body' id='card-".$row['id']."'>";
     echo '<h5 class="card-title">'.$row["review"] .'</h5>';
     echo '<p>Review By:'.$row["username"].'</p>';
-    echo '<i class="fa fa-lg fa-thumbs-up"></i>';
+    if($row["liked"]== 0){
+      echo '<i class="fa fa-lg fa-thumbs-up action_like" review_id="' . $row['id'] . '" user_id="'.$user_id.'" action="like" "></i>';
+
+    }
+    else {
+      echo '<i class="fa fa-lg fa-thumbs-up action_like" style="color: #2d7ce6" review_id="' . $row['id'] . '" user_id="'.$user_id.'" action="unlike" "></i>';
+    }
     
   echo '</div><div class="card-footer text-muted"></div>';
   }
@@ -67,12 +82,14 @@ if (pg_num_rows($reviewsResult) > 0) {
     
 </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <?php
 $script = file_get_contents("assets/js/script.js");
 echo "<script>" . $script . "</script>";
+
+
 ?>
   </body>
 </html>
