@@ -44,11 +44,7 @@ $connection_string =
     " password=" .
     DB_PASSWORD;
 
-if (!isset($_SESSION['user_id'])) {
-    // If the user is not logged in, redirect to the login page
-    header("Location: login.php");
-    exit();
-}
+require 'isauthenticated.php';
 $dbconn = pg_connect($connection_string);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data_pg = ["review" => $_REQUEST["review"], "user_id" => $_SESSION['user_id']];

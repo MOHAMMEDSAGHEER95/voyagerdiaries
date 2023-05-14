@@ -18,10 +18,12 @@ $connection_string =
     $action = $_REQUEST["action"];
     if($action == 'like'){
         pg_query($dbconn, "insert into liked_reviews (user_id,review_id) values (".$user_id.",".$reviewId.") returning id");
+        pg_query($dbconn, "UPDATE reviews SET like_count = like_count + 1 WHERE id = ".$reviewId.";");
         echo "liked";
     }
     else {
         pg_query($dbconn, "delete from liked_reviews where user_id=".$user_id." and review_id=".$reviewId." returning id");
+        pg_query($dbconn, "UPDATE reviews SET like_count = like_count - 1 WHERE id = ".$reviewId.";");
         echo "unliked";
     }
 

@@ -64,6 +64,7 @@
     Reviews
   </div>
   <?php
+require 'isauthenticated.php';
 include('config/db_config.php');
 $connection_string =
     "host=" .

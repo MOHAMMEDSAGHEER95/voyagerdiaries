@@ -1,3 +1,6 @@
+<?php session_start();
+
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <!-- Container wrapper -->
   <div class="container-fluid">
@@ -21,7 +24,7 @@
         <img
           src="https://static.ssb.ee/images/companies/14636730_yumuuv-ou_74581809_a_xl.png"
           height="50"
-          alt="MDB Logo"
+          alt="Logo"
           loading="lazy"
         />
       </a>
@@ -31,10 +34,22 @@
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/create-reviews.php">Add Reviews</a>
+          <a class="nav-link" href="<?php 
+  if (isset($_SESSION['user_id'])) {
+    echo '/create-reviews.php';
+  } else {
+    echo '/login.php';
+  } 
+?>">Add Reviews</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/my-reviews.php">My Reviews</a>
+          <a class="nav-link" href="<?php 
+  if (isset($_SESSION['user_id'])) {
+    echo '/my-reviews.php';
+  } else {
+    echo '/login.php';
+  } 
+?>">My Reviews</a>
         </li>
       </ul>
       <!-- Left links -->
@@ -46,12 +61,12 @@
       <!-- Avatar -->
       <div class="dropdown mr-100">
       <?php
-      session_start();
+      
 if (isset($_SESSION['user_id'])) {
     ?>
         
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+            src="https://img.freepik.com/free-icon/user_318-159711.jpg?w=2000"
             class="rounded-circle menu_avatar"
             height="25"
             alt="Black and White Portrait of a Man"
@@ -75,7 +90,7 @@ if (isset($_SESSION['user_id'])) {
           <li>
 <?php
 if (isset($_SESSION['user_id'])) {
-            echo '<a class="dropdown-item" href="#">My profile</a>';
+            echo '<a class="dropdown-item" href="/my-profile.php">My profile</a>';
           echo '</li>';
           echo '<li>';
             echo '<a class="dropdown-item" href="/logout.php">Logout</a>';
