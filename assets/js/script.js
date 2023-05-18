@@ -18,12 +18,14 @@ var data = {
     data: data,
     success: function(response) {
       if(response == "liked"){
+      element.siblings()[2].innerHTML = parseInt(element.siblings()[2].innerHTML) + 1;
       element.css('color', '#2d7ce6');
       element.attr("action", "unlike");
       }
       else {
         element.css('color', '#000000');
         element.attr("action", "like");
+        element.siblings()[2].innerHTML = parseInt(element.siblings()[2].innerHTML) - 1;
       }
     },
     error: function(xhr, status, error) {
