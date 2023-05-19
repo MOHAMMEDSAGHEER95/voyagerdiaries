@@ -11,6 +11,11 @@ var data = {
     action: $(this).attr("action"),
   };
   var element = $(this);
+  if(data.user_id == '0'){
+    // if user not logged in default value is 0 and we identify it as a guest user and 
+    //redirect to login
+    window.location.href = '/login.php'
+  }
   
   $.ajax({
     type: 'POST',

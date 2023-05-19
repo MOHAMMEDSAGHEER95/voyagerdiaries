@@ -4,7 +4,9 @@ CREATE TABLE users
      first_name VARCHAR(50) NOT NULL,
      last_name  VARCHAR(50),
      username   VARCHAR(50) UNIQUE NOT NULL,
-     password   VARCHAR(50) NOT NULL
+     password   VARCHAR(50) NOT NULL,
+     is_active BOOLEAN DEFAULT TRUE,
+     is_admin BOOLEAN DEFAULT FALSE,
   ); 
 CREATE TABLE reviews ( id SERIAL PRIMARY KEY,user_id INTEGER REFERENCES users(id), review TEXT,like_count INTEGER default 0);
 

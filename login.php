@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field
     $password = sha1($_REQUEST["password"]);
     $username = $_REQUEST["username"];
-    $user_authentication = pg_query($dbconn, "select * from users where username='".$username."' and password='".$password."'");
+    $user_authentication = pg_query($dbconn, "select * from users where username='".$username."' and password='".$password."' and is_active=TRUE");
     
     $user = pg_fetch_all($user_authentication);
     foreach($user as  $value){
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: /");
     }
     if(count($user) == 0){
-        echo "No active account found with the given credentials";
+        echo "Oops! It seems there was an issue with your login.";
     }
 }
 ?>
