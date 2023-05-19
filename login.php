@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['first_name'] = $value['first_name'];
         $_SESSION['last_name'] = $value['last_name'];
         $_SESSION['username'] = $value['username'];
+        $_SESSION['isAdmin'] = $value['is_admin'];
         header("Location: /");
     }
     if(count($user) == 0){
