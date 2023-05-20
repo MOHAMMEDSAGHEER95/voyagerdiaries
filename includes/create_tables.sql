@@ -16,7 +16,8 @@ CREATE TABLE reviews
      id         SERIAL PRIMARY KEY,
      user_id    INTEGER REFERENCES users(id) NOT NULL,
      review     TEXT NOT NULL,
-     like_count INTEGER DEFAULT 0
+     like_count INTEGER DEFAULT 0,
+     admin_reply VARCHAR(255) DEFAULT ''
   );
 
 
