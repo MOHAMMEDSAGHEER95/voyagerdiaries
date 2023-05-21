@@ -22,10 +22,11 @@
       <!-- Navbar brand -->
       <a class="navbar-brand mt-2 mt-lg-0" href="#">
         <img
-          src="https://static.ssb.ee/images/companies/14636730_yumuuv-ou_74581809_a_xl.png"
+          src="https://res.cloudinary.com/dguekkhnb/image/upload/v1684652397/Voyager_2_uzfcsa.png"
           height="50"
           alt="Logo"
           loading="lazy"
+          style="border-radius: 50%;"
         />
       </a>
       <!-- Left links -->
