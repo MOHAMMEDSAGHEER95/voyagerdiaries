@@ -60,7 +60,7 @@ if(isset($_SESSION['user_id'])){
 }
 
 
-$reviewsResult = pg_query($dbconn, "SELECT r.review, u.username, r.id, CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS liked,like_count FROM reviews r LEFT JOIN liked_reviews l ON l.review_id = r.id AND l.user_id = ".$user_id.  " JOIN users u ON r.user_id = u.id where u.is_active=TRUE ORDER BY r.id DESC;");
+$reviewsResult = pg_query($dbconn, "SELECT r.review, u.username, r.id, CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS liked,CASE WHEN d.user_id IS NULL THEN 0 ELSE 1 END AS disliked,like_count,dislike_count FROM reviews r LEFT JOIN liked_reviews l ON l.review_id = r.id AND l.user_id = ".$user_id.  " LEFT JOIN disliked_reviews d ON d.review_id = r.id AND d.user_id = ".$user_id.  " JOIN users u ON r.user_id = u.id where u.is_active=TRUE ORDER BY r.id DESC;");
 if (pg_num_rows($reviewsResult) > 0) {
   while ($row = pg_fetch_assoc($reviewsResult)) {
     echo "<div class='card-body' id='card-".$row['id']."'>";
@@ -74,6 +74,13 @@ if (pg_num_rows($reviewsResult) > 0) {
       echo '<i class="fa fa-lg fa-thumbs-up action_like" style="color: #2d7ce6" review_id="' . $row['id'] . '" user_id="'.$user_id.'" action="unlike" "></i>';
     }
     echo '<i class="like_count">'.$row['like_count'].'</i>';
+    if($row["disliked"]== 0){
+      echo '<i class="fa fa-lg fa-thumbs-down action_dislike" style="margin-left:5px;" review_id="' . $row['id'] . '" user_id="'.$user_id.'" action="dislike" "></i>';
+      }
+      else {
+        echo '<i class="fa fa-lg fa-thumbs-down action_dislike" style="margin-left:5px; color: red" review_id="' . $row['id'] . '" user_id="'.$user_id.'" action="undislike" "></i>';
+      }
+      echo '<i class="dislike_count">'.$row['dislike_count'].'</i>';
     
   echo '</div><div class="card-footer text-muted"></div>';
   }

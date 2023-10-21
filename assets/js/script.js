@@ -39,6 +39,42 @@ var data = {
   });
 });
 
+$('.action_dislike').on('click', function(){
+  var data = {
+      review_id: $(this).attr("review_id"),
+      user_id: $(this).attr("user_id"),
+      action: $(this).attr("action"),
+    };
+    var element = $(this);
+    debugger
+    if(data.user_id == '0'){
+      // if user not logged in default value is 0 and we identify it as a guest user and 
+      //redirect to login
+      window.location.href = '/login.php'
+    }
+    
+    $.ajax({
+      type: 'POST',
+      url: 'disliked.php',
+      data: data,
+      success: function(response) {
+        if(response == "disliked"){
+        element.siblings()[4].innerHTML = parseInt(element.siblings()[4].innerHTML) + 1;
+        element.css('color', 'red');
+        element.attr("action", "undislike");
+        }
+        else {
+          element.css('color', '#000000');
+          element.attr("action", "dislike");
+          element.siblings()[4].innerHTML = parseInt(element.siblings()[4].innerHTML) - 1;
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log('Error: ' + error);
+      }
+    });
+  });
+
 $('.fa-trash').on('click', function(){
     var data = {
         review_id: $(this).attr("review_id"),
